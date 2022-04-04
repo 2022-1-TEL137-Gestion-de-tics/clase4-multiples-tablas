@@ -1,7 +1,9 @@
 package com.example.clase4multiplestablas.controller;
 
 import com.example.clase4multiplestablas.entity.Product;
+import com.example.clase4multiplestablas.repository.CategoryRepository;
 import com.example.clase4multiplestablas.repository.ProductRepository;
+import com.example.clase4multiplestablas.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,12 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    SupplierRepository supplierRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @GetMapping(value = {"", "/"})
     public String listaProductos(Model model) {
         model.addAttribute("listaProductos", productRepository.findAll());
@@ -27,7 +35,9 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public String nuevoProductoFrm() {
+    public String nuevoProductoFrm(Model model) {
+        model.addAttribute("listaCategory",categoryRepository.findAll());
+        model.addAttribute("listaSupplier",supplierRepository.findAll());
         return "product/newFrm";
     }
 

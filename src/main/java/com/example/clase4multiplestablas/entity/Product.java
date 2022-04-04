@@ -13,8 +13,12 @@ public class Product {
     private int id;
     @Column(nullable = false)
     private String productname;
-    private int supplierid;
-    private int categoryid;
+    @ManyToOne
+    @JoinColumn(name = "supplierid")
+    private Supplier supplier;
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
     private String quantityperunit;
     private BigDecimal unitprice;
     private int unitsinstock;
@@ -39,20 +43,20 @@ public class Product {
         this.productname = productname;
     }
 
-    public int getSupplierid() {
-        return supplierid;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setSupplierid(int supplierid) {
-        this.supplierid = supplierid;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
-    public int getCategoryid() {
-        return categoryid;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryid(int categoryid) {
-        this.categoryid = categoryid;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getQuantityperunit() {

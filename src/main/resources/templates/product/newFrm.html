@@ -17,11 +17,17 @@
                     </div>
                     <div class="mb-3">
                         <label for="supplier" class="form-label">Proveedor</label>
-                        <input type="text" class="form-control" name="supplier" id="supplier">
+                        <select name="supplier" class="form-select" id="supplier">
+                            <option th:each="supplier : ${listaSupplier}" th:text="${supplier.getCompanyname()}"
+                                    th:value="${supplier.getId()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Categoría</label>
-                        <input type="text" class="form-control" name="category" id="category">
+                        <select name="category" class="form-select" id="category">
+                            <option th:each="category : ${listaCategory}" th:text="${category.getCategoryname()}"
+                                    th:value="${category.getId()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="quantityperunit" class="form-label">Cantidad por unidad</label>
@@ -52,6 +58,8 @@
                 </form>
             </div>
         </main>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+        <script th:replace="fragmentos/fragmento :: script1"></script>
+        <script th:insert="fragmentos/fragmento :: script1"></script>
     </body>
 </html>
