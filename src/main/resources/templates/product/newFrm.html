@@ -17,7 +17,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="supplier" class="form-label">Proveedor</label>
-                        <select name="supplier" class="form-select" id="supplier">
+                        <select name="supplier.id" class="form-select" id="supplier">
                             <option th:each="supplier : ${listaSupplier}" th:text="${supplier.getCompanyname()}"
                                     th:value="${supplier.getId()}"></option>
                         </select>

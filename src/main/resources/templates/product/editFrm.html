@@ -10,6 +10,7 @@
         <main>
             <div class="container px-4 py-5">
                 <h1 class="pb-2 mb-3 border-bottom">Editar Producto</h1>
+                <div class="alert alert-danger" role="alert" th:if="${errProd != null}" th:text="${errProd}"></div>
                 <form method="post" th:action="@{'/product/save'}" th:object="${product}" class="mt-2">
                     <input th:field="*{id}" name="id" type="hidden"/>
                     <div class="mb-3">
@@ -17,12 +18,18 @@
                         <input th:field="*{productname}" type="text" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Proveedor</label>
-                        <input th:field="*{supplierid}" type="text" class="form-control">
+                        <label class="form-label">Categoría</label>
+                        <select th:field="*{category}" class="form-select">
+                            <option th:each="category : ${listaCategory}" th:text="${category.getCategoryname()}"
+                                    th:value="${category.getId()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Categoría</label>
-                        <input th:field="*{categoryid}" type="text" class="form-control">
+                        <label class="form-label">Proveedor</label>
+                        <select th:field="*{supplier}" class="form-select">
+                            <option th:each="supplier : ${listaSupplier}" th:text="${supplier.getCompanyname()}"
+                                    th:value="${supplier.getId()}"></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Cantidad por unidad</label>

@@ -36,30 +36,45 @@ public class ProductController {
 
     @GetMapping("/new")
     public String nuevoProductoFrm(Model model) {
-        model.addAttribute("listaCategory",categoryRepository.findAll());
-        model.addAttribute("listaSupplier",supplierRepository.findAll());
+        model.addAttribute("listaCategory", categoryRepository.findAll());
+        model.addAttribute("listaSupplier", supplierRepository.findAll());
         return "product/newFrm";
     }
 
     @PostMapping("/save")
-    public String guardarProducto(Product product, RedirectAttributes attr) {
+    public String guardarProducto(Product product, Model model, RedirectAttributes attr) {
         if (product.getId() == 0) {
             attr.addFlashAttribute("msg", "Producto creado exitosamente");
         } else {
             attr.addFlashAttribute("msg", "Producto actualizado exitosamente");
         }
-        productRepository.save(product);
-        return "redirect:/product";
+
+        if (product.getCategory() != null && product.getSupplier() != null) {
+            productRepository.save(product);
+            return "redirect:/product";
+        } else {
+            model.addAttribute("errProd", "Error al crear producto");
+            model.addAttribute("listaCategory", categoryRepository.findAll());
+            model.addAttribute("listaSupplier", supplierRepository.findAll());
+            if (product.getId() != 0) {
+                model.addAttribute("product", product);
+                return "product/editFrm";
+            } else {
+                return "product/newFrm";
+            }
+        }
     }
 
     @GetMapping("/edit")
-    public String editarTransportista(Model model,@RequestParam("id") int id) {
+    public String editarTransportista(Model model, @RequestParam("id") int id) {
 
         Optional<Product> optProduct = productRepository.findById(id);
 
         if (optProduct.isPresent()) {
             Product product = optProduct.get();
             model.addAttribute("product", product);
+            model.addAttribute("listaCategory", categoryRepository.findAll());
+            model.addAttribute("listaSupplier", supplierRepository.findAll());
             return "product/editFrm";
         } else {
             return "redirect:/product";
@@ -75,7 +90,7 @@ public class ProductController {
 
         if (optProduct.isPresent()) {
             productRepository.deleteById(id);
-            attr.addFlashAttribute("msg","Producto borrado exitosamente");
+            attr.addFlashAttribute("msg", "Producto borrado exitosamente");
         }
         return "redirect:/product";
 
